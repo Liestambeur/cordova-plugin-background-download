@@ -19,6 +19,8 @@
 
 #import "BackgroundDownload.h"
 
+#import "TWRDownloadManager.h"
+
 @implementation BackgroundDownload {
     bool ignoreNextError;
 }
@@ -28,17 +30,41 @@
 
 - (void)startAsync:(CDVInvokedUrlCommand*)command
 {
+    //NSLog(@"START ASYNC");
+    NSLog(@"START ASYNC for callbackId: %@", command.callbackId);
     self.downloadUri = [command.arguments objectAtIndex:0];
     self.targetFile = [command.arguments objectAtIndex:1];
-    
+    NSLog(@"download uri: %@", self.downloadUri);
+    NSLog(@"target file: %@", self.targetFile);
+
     self.callbackId = command.callbackId;
-    
+    NSString * cbid = command.callbackId;
+
+    //NSString * dir = [self.targetFile stringByDeletingLastPathComponent];
+    //NSString * name = [self.targetFile lastPathComponent];
+    //NSLog(@"name: %@", name);
+    //NSLog(@"dir: %@", dir);
+
+    [[TWRDownloadManager sharedManager] downloadFileForURL: self.downloadUri toAbsolutePathURL: self.targetFile progressBlock:^(CGFloat p) {
+        //NSLog(@"PROGRESS");
+        //NSLog(@"PROGRESS for callbackId: %@", self.callbackId);
+        NSLog(@"PROGRESS for callbackId: %@", cbid);
+    } remainingTime: nil completionBlock: ^(BOOL completed){
+        //NSLog(@"COMPLETED: %d", completed);
+        //NSLog(@"COMPLETED: %d for callbackId: %@", completed, self.callbackId);
+        NSLog(@"COMPLETED: %d for callbackId: %@", completed, cbid);
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        //[self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:cbid];
+    } enableBackgroundMode:false];
+
+#if 0
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.downloadUri]];
-    
+
     ignoreNextError = NO;
-    
+
     session = [self backgroundSession];
-    
+
     [session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
         if (downloadTasks.count > 0) {
             downloadTask = downloadTasks[0];
@@ -47,9 +73,10 @@
         }
         [downloadTask resume];
     }];
-    
+#endif
 }
 
+#if 0
 - (NSURLSession *)backgroundSession
 {
     static NSURLSession *backgroundSession = nil;
@@ -60,9 +87,12 @@
     });
     return backgroundSession;
 }
+#endif
 
 - (void)stop:(CDVInvokedUrlCommand*)command
 {
+    // XXX TODO
+#if 0
     CDVPluginResult* pluginResult = nil;
     NSString* myarg = [command.arguments objectAtIndex:0];
     
@@ -75,8 +105,10 @@
     [downloadTask cancel];
     
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+#endif
 }
 
+#if 0
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     NSMutableDictionary* progressObj = [NSMutableDictionary dictionaryWithCapacity:1];
     [progressObj setObject:[NSNumber numberWithInteger:totalBytesWritten] forKey:@"bytesReceived"];
@@ -123,4 +155,6 @@
     [fileManager removeItemAtPath:targetURL.path error: nil];
     [fileManager createFileAtPath:targetURL.path contents:[fileManager contentsAtPath:[location path]] attributes:nil];
 }
+#endif
+
 @end

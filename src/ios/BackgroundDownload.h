@@ -22,7 +22,7 @@
 
 // TODO This means that you can start a download of a large image or file, close the app and
 // the download wilcontinue until it completes.
-@interface BackgroundDownload : CDVPlugin <NSURLSessionDownloadDelegate>
+@interface BackgroundDownload : CDVPlugin //<NSURLSessionDownloadDelegate>
 
 @property NSString *targetFile;
 @property NSString *downloadUri;

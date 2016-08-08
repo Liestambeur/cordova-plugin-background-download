@@ -49,6 +49,10 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         </config-file>
         <header-file src="src/ios/BackgroundDownload.h" />
         <source-file src="src/ios/BackgroundDownload.m" />
+        <header-file src="src/deps/TWRDownloadManager.h" />
+        <source-file src="src/deps/TWRDownloadManager.m" />
+        <header-file src="src/deps/TWRDownloadObject.h" />
+        <source-file src="src/deps/TWRDownloadObject.m" />
     </platform>
 
     <!-- wp8 -->
