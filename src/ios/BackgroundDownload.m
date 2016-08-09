@@ -21,23 +21,30 @@
 
 #import "TWRDownloadManager.h"
 
-@implementation BackgroundDownload {
-    bool ignoreNextError;
-}
+@implementation BackgroundDownload //{
+//    bool ignoreNextError;
+//}
 
+/* **
 @synthesize session;
 @synthesize downloadTask;
+// */
 
 - (void)startAsync:(CDVInvokedUrlCommand*)command
 {
     //NSLog(@"START ASYNC");
     NSLog(@"START ASYNC for callbackId: %@", command.callbackId);
-    self.downloadUri = [command.arguments objectAtIndex:0];
-    self.targetFile = [command.arguments objectAtIndex:1];
-    NSLog(@"download uri: %@", self.downloadUri);
-    NSLog(@"target file: %@", self.targetFile);
 
-    self.callbackId = command.callbackId;
+    //self.downloadUri = [command.arguments objectAtIndex:0];
+    //self.targetFile = [command.arguments objectAtIndex:1];
+
+    NSString * downloadUri = [command.arguments objectAtIndex:0];
+    NSString * targetFile = [command.arguments objectAtIndex:1];
+
+    NSLog(@"download uri: %@", downloadUri);
+    NSLog(@"target file: %@", targetFile);
+
+    //self.callbackId = command.callbackId;
     NSString * cbid = command.callbackId;
 
     //NSString * dir = [self.targetFile stringByDeletingLastPathComponent];
@@ -45,7 +52,7 @@
     //NSLog(@"name: %@", name);
     //NSLog(@"dir: %@", dir);
 
-    [[TWRDownloadManager sharedManager] downloadFileForURL: self.downloadUri toAbsolutePathURL: self.targetFile progressBlock:^(CGFloat p) {
+    [[TWRDownloadManager sharedManager] downloadFileForURL: downloadUri toAbsolutePathURL: targetFile progressBlock:^(CGFloat p) {
         //NSLog(@"PROGRESS");
         //NSLog(@"PROGRESS for callbackId: %@", self.callbackId);
         NSLog(@"PROGRESS for callbackId: %@", cbid);
