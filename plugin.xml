@@ -14,6 +14,9 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
     <dependency id="cordova-plugin-file" />
 
+    <!-- THANKS to AllJoyn-Cordova / cordova-plugin-alljoyn: -->
+    <hook type="before_plugin_install" src="scripts/beforePluginInstall.js" />
+
     <js-module src="www/Promise.js" name="Promise">
     </js-module>
 
@@ -49,6 +52,10 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         </config-file>
         <header-file src="src/ios/BackgroundDownload.h" />
         <source-file src="src/ios/BackgroundDownload.m" />
+        <header-file src="node_modules/twrdownloadmanager/TWRDownloadManager.h" />
+        <source-file src="node_modules/twrdownloadmanager/TWRDownloadManager.m" />
+        <header-file src="node_modules/twrdownloadmanager/TWRDownloadObject.h" />
+        <source-file src="node_modules/twrdownloadmanager/TWRDownloadObject.m" />
     </platform>
 
     <!-- wp8 -->

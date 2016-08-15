@@ -19,26 +19,36 @@
 
 #import "BackgroundDownload.h"
 
-@implementation BackgroundDownload {
-    bool ignoreNextError;
-}
+#import "TWRDownloadManager.h"
 
-@synthesize session;
-@synthesize downloadTask;
+@implementation BackgroundDownload
 
 - (void)startAsync:(CDVInvokedUrlCommand*)command
 {
+    NSString * downloadUri = [command.arguments objectAtIndex:0];
+    NSString * targetFile = [command.arguments objectAtIndex:1];
+
+    NSString * cbid = command.callbackId;
+
+    [[TWRDownloadManager sharedManager] downloadFileForURL: downloadUri toAbsolutePathURL: targetFile progressBlock:^(CGFloat p) {
+        /* TODO (IGNORED FOR NOW) */
+    } remainingTime: nil completionBlock: ^(BOOL completed){
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:cbid];
+    } enableBackgroundMode:false];
+
+#if 0
     self.downloadUri = [command.arguments objectAtIndex:0];
     self.targetFile = [command.arguments objectAtIndex:1];
-    
+
     self.callbackId = command.callbackId;
-    
+
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.downloadUri]];
-    
+
     ignoreNextError = NO;
-    
+
     session = [self backgroundSession];
-    
+
     [session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
         if (downloadTasks.count > 0) {
             downloadTask = downloadTasks[0];
@@ -47,9 +57,10 @@
         }
         [downloadTask resume];
     }];
-    
+#endif
 }
 
+#if 0
 - (NSURLSession *)backgroundSession
 {
     static NSURLSession *backgroundSession = nil;
@@ -60,23 +71,30 @@
     });
     return backgroundSession;
 }
+#endif
 
 - (void)stop:(CDVInvokedUrlCommand*)command
 {
+    // XXX TODO
+#if 0
     CDVPluginResult* pluginResult = nil;
     NSString* myarg = [command.arguments objectAtIndex:0];
-    
+
     if (myarg != nil) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     } else {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Arg was null"];
     }
-    
+
     [downloadTask cancel];
-    
+#endif
+
+    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"NOT IMPLEMENTED"];
+
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+#if 0
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     NSMutableDictionary* progressObj = [NSMutableDictionary dictionaryWithCapacity:1];
     [progressObj setObject:[NSNumber numberWithInteger:totalBytesWritten] forKey:@"bytesReceived"];
@@ -123,4 +141,6 @@
     [fileManager removeItemAtPath:targetURL.path error: nil];
     [fileManager createFileAtPath:targetURL.path contents:[fileManager contentsAtPath:[location path]] attributes:nil];
 }
+#endif
+
 @end

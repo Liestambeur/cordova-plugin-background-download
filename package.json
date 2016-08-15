@@ -1,0 +1,22 @@
+{
+  "name": "cordova-plugin-background-download",
+  "version": "0.0.1",
+  "description": "Cordova background download ...",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sgrebnov/cordova-plugin-background-download.git"
+  },
+  "author": "various",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/sgrebnov/cordova-plugin-background-download/issues"
+  },
+  "homepage": "https://github.com/sgrebnov/cordova-plugin-background-download#readme",
+  "dependencies": {
+    "twrdownloadmanager": "https://github.com/brodybits/TWRDownloadManager.git#cb-package-fix1"
+  }
+}
