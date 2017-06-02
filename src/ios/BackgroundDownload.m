@@ -32,9 +32,14 @@
 
     [[TWRDownloadManager sharedManager] downloadFileForURL: downloadUri toAbsolutePathURL: targetFile progressBlock:^(CGFloat p) {
         /* TODO (IGNORED FOR NOW) */
-    } remainingTime: nil completionBlock: ^(BOOL completed){
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:cbid];
+    } remainingTime: nil completionBlock: ^(NSInteger completed){
+        if (completed > 0) {
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[@(completed) stringValue]];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:cbid];
+        } else {
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:cbid];
+        }
     } enableBackgroundMode:false];
 
 #if 0
