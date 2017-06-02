@@ -34,9 +34,10 @@ var BackgroundDownloader = function() {
  *
  * @param {string} uri The location of the resource.
  * @param {File} resultFile The file that the response will be written to.
+ * @param {Array} Array of cookie strings.
  */
-BackgroundDownloader.prototype.createDownload = function(uri, resultFile) {
-    return new DownloadOperation(uri, resultFile);
+BackgroundDownloader.prototype.createDownload = function(uri, resultFile, cookies) {
+    return new DownloadOperation(uri, resultFile, cookies);
 };
 
 module.exports = BackgroundDownloader;
