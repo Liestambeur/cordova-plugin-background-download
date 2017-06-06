@@ -34,7 +34,7 @@ var BackgroundDownloader = function() {
  *
  * @param {string} uri The location of the resource.
  * @param {File} resultFile The file that the response will be written to.
- * @param {Array} Array of cookie strings.
+ * @param {Array} cookies Array of strings of cookies to be passed.
  */
 BackgroundDownloader.prototype.createDownload = function(uri, resultFile, cookies) {
     return new DownloadOperation(uri, resultFile, cookies);

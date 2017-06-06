@@ -27,14 +27,14 @@ var exec = require('cordova/exec'),
  *
  * @param {string} uri The location of the resource.
  * @param {File} resultFile The file that the response will be written to.
- * @param {Array} array of cookies
+ * @param {Array} cookies Array of strings of cookies to be passed.
  */
 var DownloadOperation = function (uri, resultFile, cookies) {
 
     if (uri == null || resultFile == null) {
         throw new Error("missing or invalid argument");
     }
-    
+
     this.uri = uri;
     this.resultFile = resultFile;
     this.cookies = cookies;
@@ -49,9 +49,9 @@ DownloadOperation.prototype.startAsync = function() {
         me = this,
         successCallback = function(result) {
 
-            // success callback is used to both report operation progress and 
+            // success callback is used to both report operation progress and
             // as operation completeness handler
-            
+
             if (result && typeof result.progress != 'undefined') {
                 deferral.notify(result.progress);
             } else {
