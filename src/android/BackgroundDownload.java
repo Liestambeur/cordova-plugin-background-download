@@ -53,15 +53,17 @@ public class BackgroundDownload extends CordovaPlugin {
         private String filePath;
         private String tempFilePath;
         private String uriString;
+        private String[] cookies;
         private CallbackContext callbackContext; // The callback context from which we were invoked.
         private CallbackContext callbackContextDownloadStart; // The callback context from which we started file download command.
         private long downloadId = DOWNLOAD_ID_UNDEFINED;
         private Timer timerProgressUpdate = null;
 
-        public Download(String uriString, String filePath,
+        public Download(String uriString, String filePath, String[] cookies
                 CallbackContext callbackContext) {
             this.setUriString(uriString);
             this.setFilePath(filePath);
+            this.setCookies(cookies);
             this.setTempFilePath(filePath + TEMP_DOWNLOAD_FILE_EXTENSION);
             this.setCallbackContext(callbackContext);
             this.setCallbackContextDownloadStart(callbackContext);
@@ -81,6 +83,14 @@ public class BackgroundDownload extends CordovaPlugin {
 
         public void setUriString(String uriString) {
             this.uriString = uriString;
+        }
+
+        public String[] getCookies() {
+            return cookies;
+        }
+
+        public void setCookies(String cookies) {
+            this.cookies = cookies;
         }
 
         public String getTempFilePath() {
@@ -124,7 +134,7 @@ public class BackgroundDownload extends CordovaPlugin {
             this.timerProgressUpdate = TimerProgressUpdate;
         };
     }
-    
+
     HashMap<String, Download> activDownloads = new HashMap<String, Download>();
 
     @Override
@@ -151,7 +161,7 @@ public class BackgroundDownload extends CordovaPlugin {
             cordova.getActivity().registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         }
 
-        Download curDownload = new Download(args.get(0).toString(), args.get(1).toString(), callbackContext);
+        Download curDownload = new Download(args.get(0).toString(), args.get(1).toString(), agrs.get(2).toString(), callbackContext);
 
         if (activDownloads.containsKey(curDownload.getUriString())) {
             return;
