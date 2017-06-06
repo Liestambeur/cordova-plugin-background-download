@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/sgrebnov/cordova-plugin-background-download#readme",
   "dependencies": {
-    "twrdownloadmanager": "https://github.com/Liestambeur/TWRDownloadManager.git"
+    "twrdownloadmanager": "https://github.com/Liestambeur/TWRDownloadManager.git#cb-package-fix1"
   }
 }
