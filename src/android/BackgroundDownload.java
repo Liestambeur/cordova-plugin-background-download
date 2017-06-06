@@ -89,7 +89,7 @@ public class BackgroundDownload extends CordovaPlugin {
             return cookies;
         }
 
-        public void setCookies(String cookies) {
+        public void setCookies(String[] cookies) {
             this.cookies = cookies;
         }
 
