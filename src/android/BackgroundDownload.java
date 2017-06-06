@@ -59,7 +59,7 @@ public class BackgroundDownload extends CordovaPlugin {
         private long downloadId = DOWNLOAD_ID_UNDEFINED;
         private Timer timerProgressUpdate = null;
 
-        public Download(String uriString, String filePath, String[] cookies
+        public Download(String uriString, String filePath, String[] cookies,
                 CallbackContext callbackContext) {
             this.setUriString(uriString);
             this.setFilePath(filePath);
