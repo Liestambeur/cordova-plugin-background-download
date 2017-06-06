@@ -356,33 +356,34 @@ public class BackgroundDownload extends CordovaPlugin {
             query.setFilterById(downloadId);
             Cursor cursor = mgr.query(query);
             int idxURI = cursor.getColumnIndex(DownloadManager.COLUMN_URI);
-            cursor.moveToFirst();
-            String uri = cursor.getString(idxURI);
+            if (cursor.moveToFirst()) {
+                  String uri = cursor.getString(idxURI);
 
-            Download curDownload = activDownloads.get(uri);
+                  Download curDownload = activDownloads.get(uri);
 
-            try {
-                long receivedID = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1L);
-                query.setFilterById(receivedID);
-                int idxStatus = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
-                int idxReason = cursor.getColumnIndex(DownloadManager.COLUMN_REASON);
+                  try {
+                      long receivedID = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1L);
+                      query.setFilterById(receivedID);
+                      int idxStatus = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                      int idxReason = cursor.getColumnIndex(DownloadManager.COLUMN_REASON);
 
-                if (cursor.moveToFirst()) {
-                    int status = cursor.getInt(idxStatus);
-                    int reason = cursor.getInt(idxReason);
-                    if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                        copyTempFileToActualFile(curDownload);
-                    } else {
-                        curDownload.getCallbackContextDownloadStart().error("Download operation failed with status " + status + " and reason: "    + getUserFriendlyReason(reason));
-                    }
-                } else {
-                    curDownload.getCallbackContextDownloadStart().error("cancelled or terminated");
-                }
-                cursor.close();
-            } catch (Exception ex) {
-                curDownload.getCallbackContextDownloadStart().error(ex.getMessage());
-            } finally {
-                CleanUp(curDownload);
+                      if (cursor.moveToFirst()) {
+                          int status = cursor.getInt(idxStatus);
+                          int reason = cursor.getInt(idxReason);
+                          if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                              copyTempFileToActualFile(curDownload);
+                          } else {
+                              curDownload.getCallbackContextDownloadStart().error("Download operation failed with status " + status + " and reason: "    + getUserFriendlyReason(reason));
+                          }
+                      } else {
+                          curDownload.getCallbackContextDownloadStart().error("cancelled or terminated");
+                      }
+                      cursor.close();
+                  } catch (Exception ex) {
+                      curDownload.getCallbackContextDownloadStart().error(ex.getMessage());
+                  } finally {
+                      CleanUp(curDownload);
+                  }
             }
         }
     };
