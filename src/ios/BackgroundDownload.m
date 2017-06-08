@@ -111,7 +111,7 @@
 
   int i;
   for (i = 0; i < [cookies count]; i++) {
-   NSString cookieString = [cookies objectAtIndex:i];
+   NSString *cookieString = [cookies objectAtIndex:i];
    NSHTTPCookie *cookie = [self createCookie:cookieString];
    [cookieStorage setCookie:cookie];
   }
