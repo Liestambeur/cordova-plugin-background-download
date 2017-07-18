@@ -137,7 +137,7 @@
             CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:cbid];
         }
-    } enableBackgroundMode:false];
+    } enableBackgroundMode:true];
 
 #if 0
     self.downloadUri = [command.arguments objectAtIndex:0];
