@@ -1,4 +1,5 @@
-﻿/*
+cordova.define("cordova-plugin-background-download.BackgroundDownloader", function(require, exports, module) {
+/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,6 +19,8 @@
  * under the License.
  *
 */
+var exec = require('cordova/exec'),
+    Promise = require('./Promise');
 
 var DownloadOperation = require('./DownloadOperation');
 
@@ -40,4 +43,10 @@ BackgroundDownloader.prototype.createDownload = function(uri, resultFile, cookie
     return new DownloadOperation(uri, resultFile, cookies);
 };
 
+BackgroundDownloader.prototype.setCookies = function(cookies) {
+     exec(null, null, "BackgroundDownload", "setCookies", cookies);
+}
+
 module.exports = BackgroundDownloader;
+
+});
