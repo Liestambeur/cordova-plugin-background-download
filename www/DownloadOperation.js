@@ -1,4 +1,5 @@
-﻿/*
+cordova.define("cordova-plugin-background-download.DownloadOperation", function(require, exports, module) {
+/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -62,7 +63,7 @@ DownloadOperation.prototype.startAsync = function() {
             deferral.reject(err);
         };
 
-    exec(successCallback, errorCallback, "BackgroundDownload", "startAsync", [this.uri, this.resultFile.toURL(), this.cookies]);
+    exec(successCallback, errorCallback, "BackgroundDownload", "startAsync", [this.uri, this.resultFile, this.cookies]);
 
     // custom mechanism to trigger stop when user cancels pending operation
     deferral.promise.onCancelled = function () {
@@ -82,3 +83,5 @@ DownloadOperation.prototype.stop = function() {
 };
 
 module.exports = DownloadOperation;
+
+});
